@@ -6,7 +6,12 @@
 
 A curated list of papers, benchmarks, methods, and resources for **On-Policy Distillation (OPD) and On-Policy Self-Distillation (OPSD) in Agentic RL**.
 
-**Scope.** This list covers OPD / OPSD for agents that take **multiple turns** in an environment — tool calls, retrieval, GUI actions, code execution — where per-step errors compound over a long horizon and a trajectory-level reward says nothing about *which* action was wrong. Conventional **single-turn** OPD (distilling one reasoning response on math or QA) is deliberately **out of scope**: it is represented only by a short [Preliminaries](#-preliminaries-single-turn-opd--opsd) section that fixes the definitions the rest of the list builds on.
+**Scope.** A paper belongs here when it satisfies *both* conditions:
+
+1. **Agentic** — the policy takes **more than one turn** in an environment (tool calls, retrieval, GUI actions, code execution), so per-step errors compound and a trajectory-level reward does not say *which* action was wrong.
+2. **On-policy distillation** — a teacher-derived signal (an external teacher, or the same policy conditioned on privileged context) supplies a **distillation objective on the agent's own rollouts** and updates the weights.
+
+Explicitly **out of scope**: single-turn OPD; off-policy distillation and SFT on teacher trajectories; "distillation" that only writes text into a memory or skill library without a distillation loss; training-free and gradient-free agent transfer; non-LLM robotic policy distillation; general-purpose LLM technical reports that are not about multi-turn agents. Single-turn foundations appear only in a short [Preliminaries](#-preliminaries-single-turn-opd--opsd) section that fixes the definitions.
 
 ---
 
@@ -14,8 +19,8 @@ A curated list of papers, benchmarks, methods, and resources for **On-Policy Dis
 
 - 🚀 2026-08-06: Repository initialized.
 - 📝 2026-08-06: Taxonomy for agentic OPD / OPSD released (8 categories).
-- 📚 2026-08-06: 87 agentic papers indexed, plus 6 single-turn preliminaries. 2025–2026 venues and arXiv.
 - ✅ 2026-08-06: All titles, dates, venues and code links verified programmatically against the arXiv API.
+- 🧹 2026-08-06: Inclusion criteria tightened and written down. Every entry re-checked against its abstract for an actual on-policy distillation objective; 24 entries removed that used "distil" only figuratively, distilled off-policy, or wrote to a text memory instead of the weights.
 
 ---
 
@@ -29,14 +34,13 @@ A curated list of papers, benchmarks, methods, and resources for **On-Policy Dis
     - [3️⃣ Privileged- and Hindsight-Conditioned OPSD](#3️⃣-privileged--and-hindsight-conditioned-opsd)
     - [4️⃣ Token- and Advantage-Level Credit in Agentic OPD](#4️⃣-token--and-advantage-level-credit-in-agentic-opd)
     - [5️⃣ Teacher Construction and Multi-Teacher Agentic OPD](#5️⃣-teacher-construction-and-multi-teacher-agentic-opd)
-    - [6️⃣ Skill, Memory and Self-Evolving Agents](#6️⃣-skill-memory-and-self-evolving-agents)
-    - [7️⃣ Domain Agents and Small-Model Agent Distillation](#7️⃣-domain-agents-and-small-model-agent-distillation)
+    - [6️⃣ Skill and Experience Distillation for Self-Evolving Agents](#6️⃣-skill-and-experience-distillation-for-self-evolving-agents)
+    - [7️⃣ Domain Agents: Search, GUI, Coding, Multimodal](#7️⃣-domain-agents-search-gui-coding-multimodal)
     - [8️⃣ Benchmarks, Environments and Frameworks](#8️⃣-benchmarks-environments-and-frameworks)
   - [📎 Preliminaries: Single-Turn OPD / OPSD](#-preliminaries-single-turn-opd--opsd)
   - [📄 Papers](#-papers)
   - [🤝 Contributing](#-contributing)
   - [⭐ Star History](#-star-history)
-  - [📌 Citation](#-citation)
 
 ---
 
@@ -44,11 +48,11 @@ A curated list of papers, benchmarks, methods, and resources for **On-Policy Dis
 
 ### 1️⃣ Trajectory-Level Agentic OPD
 
-Whole-rollout distillation in interactive environments: trajectory-level KL and its instability, rollout-depth and prefix replay, teacher bridges validated by the student's own continuation.
+Whole-rollout distillation in interactive environments: trajectory-level KL and its instability, rollout depth and prefix replay, teacher bridges validated by the student's own continuation.
 
 ### 2️⃣ Turn- and Step-Level OPD / OPSD
 
-Supervision aligned to the agent's decision points: per-turn intervention and switching, turn-normalized losses, turn-level credit from a teacher, step-level preference and advantage shaping, curricula over turns.
+Supervision aligned to the agent's decision points: per-turn intervention and switching, turn-normalized losses, turn-level credit from a teacher, step-level preference distillation, curricula over turns.
 
 ### 3️⃣ Privileged- and Hindsight-Conditioned OPSD
 
@@ -56,35 +60,34 @@ Self-teachers conditioned on what the student never sees — gold answers, retri
 
 ### 4️⃣ Token- and Advantage-Level Credit in Agentic OPD
 
-Turning teacher disagreement into token-level credit inside a policy-gradient update: adaptive granularity, counterfactual sibling credit, and bounded advantage reshaping that keeps RL in charge.
+Turning teacher disagreement into token-level credit inside a policy-gradient update: adaptive granularity, counterfactual sibling credit, and bounded advantage reshaping that keeps RL in charge of the actor.
 
 ### 5️⃣ Teacher Construction and Multi-Teacher Agentic OPD
 
-Choosing and building the teacher for agentic tasks: teacher debate, domain-routed multi-teacher OPD (MOPD), expert-to-generalist recycling, tool-call support truncation, and agentic models that ship MOPD.
+Choosing and building the teacher for agentic tasks: teacher debate, domain-routed multi-teacher OPD (MOPD), specialize-then-unify, tool-call support truncation, and agentic models that ship MOPD in production.
 
-### 6️⃣ Skill, Memory and Self-Evolving Agents
+### 6️⃣ Skill and Experience Distillation for Self-Evolving Agents
 
-Distilling experience into reusable artifacts and back into weights: skill libraries, hindsight skills, memory hierarchies, world models, and slow-fast self-evolution loops.
+Converting completed rollouts into skills, hindsight experience or world-model updates, then distilling their behavioural effect back into the weights on-policy. Excludes memory architectures that only write text and never touch the policy.
 
-### 7️⃣ Domain Agents and Small-Model Agent Distillation
+### 7️⃣ Domain Agents: Search, GUI, Coding, Multimodal
 
-Agentic OPD / OPSD per domain — deep search and RAG agents, GUI and computer-use agents, SWE agents, multimodal and dialogue agents — plus distilling a large agent into a small one that still uses tools.
+Agentic OPD / OPSD instantiated per domain — deep search and RAG agents, GUI and computer-use agents, multimodal and dialogue agents — including the negative results on when a self-teacher fails to help.
 
 ### 8️⃣ Benchmarks, Environments and Frameworks
 
-Environments and evaluation testbeds for dense supervision in long-horizon agents, open-source training frameworks, and studies of what distillation transfers besides capability.
+Environments and testbeds for dense supervision in long-horizon agents, and open-source frameworks that implement agentic OPD.
 
 ---
 
 ## 📎 Preliminaries: Single-Turn OPD / OPSD
 
-Single-turn work, included **only** so the objectives used throughout this list are defined: reverse-KL / f-divergence minimization over student-sampled sequences (OPD), and the same-model teacher conditioned on privileged context (OPSD). Not part of the list's subject matter.
+Single-turn work, included **only** so the objectives used throughout this list are defined: reverse-KL minimization over student-sampled sequences (OPD), and the same-model teacher conditioned on privileged context (OPSD). Not part of the list's subject matter.
 
 | 📖 Title | 🛠 Model / Method | 📅 Date | 💻 Code | 🏛 Venue |
 | --- | --- | --- | --- | --- |
 | [On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes](https://arxiv.org/abs/2306.13649) | GKD | 2023-06 | - | ICLR |
 | [MiniLLM: On-Policy Distillation of Large Language Models](https://arxiv.org/abs/2306.08543) | MiniLLM | 2023-06 | [Code](https://github.com/microsoft/LMOps/tree/main/minillm) | ICLR |
-| [DistiLLM: Towards Streamlined Distillation for Large Language Models](https://arxiv.org/abs/2402.03898) | DistiLLM | 2024-02 | [Code](https://github.com/jongwooko/distillm) | ICML |
 | [Speculative Knowledge Distillation: Bridging the Teacher-Student Gap Through Interleaved Sampling](https://arxiv.org/abs/2410.11325) | SKD | 2024-10 | - | ICLR |
 | [Self-Distilled Reasoner: On-Policy Self-Distillation for Large Language Models](https://arxiv.org/abs/2601.18734) | OPSD | 2026-01 | [Code](https://github.com/siyan-zhao/OPSD) | arXiv |
 | [A Survey of On-Policy Distillation for Large Language Models](https://arxiv.org/abs/2604.00626) | Survey | 2026-04 | - | arXiv |
@@ -100,7 +103,6 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [TCOD: Exploring Temporal Curriculum in On-Policy Distillation for Multi-turn Autonomous Agents](https://arxiv.org/abs/2604.24005) | TCOD | 2026-04 | [Code](https://github.com/kokolerk/TCOD) | arXiv |
 | [Same Evidence, Different Answers: Canonical-Context On-Policy Distillation for Multi-Turn Language Models](https://arxiv.org/abs/2605.30251) | CCOPD | 2026-05 | - | arXiv |
 | [Multi-Turn On-Policy Distillation with Prefix Replay](https://arxiv.org/abs/2607.04763) | ReOPD | 2026-07 | - | arXiv |
-| [From Trajectories to Prefixes: Reusing Teacher Trajectories via Replayed Prefixes and Online Continuation](https://arxiv.org/abs/2607.19395) | Prefix-GRPO | 2026-07 | [Code](https://github.com/HappynessI/Prefix_GRPO) | arXiv |
 | [The Physics of Multi-Turn Long-Horizon Planning: From Pre-training to Post-training via Single- and Multi-Teacher On-Policy Agentic Distillation](https://arxiv.org/abs/2607.24720) | MOPD | 2026-07 | - | arXiv |
 | [Look Ahead Before You Distill: Future Trajectory Validation of Teacher Guidance for Agentic On-Policy Distillation](https://arxiv.org/abs/2608.01953) | FutureBridge-OPD | 2026-08 | [Code](https://github.com/ChenChiShui/FutureBridge-OPD) | arXiv |
 | [HindSearch: Trajectory-Level Hindsight Critique for Search-Augmented Reinforcement Learning](https://arxiv.org/abs/2608.01597) | HindSearch | 2026-08 | - | arXiv |
@@ -109,8 +111,6 @@ Single-turn work, included **only** so the objectives used throughout this list 
 
 | 📖 Title | 🛠 Model / Method | 📅 Date | 💻 Code | 🏛 Venue |
 | --- | --- | --- | --- | --- |
-| [Adaptive Milestone Reward for GUI Agents](https://arxiv.org/abs/2602.11524) | ADMIRE | 2026-02 | - | arXiv |
-| [SLEA-RL: Step-Level Experience Augmented Reinforcement Learning for Multi-Turn Agentic Training](https://arxiv.org/abs/2603.18079) | SLEA-RL | 2026-03 | - | arXiv |
 | [UI-Voyager: A Self-Evolving GUI Agent Learning via Failed Experience](https://arxiv.org/abs/2603.24533) | Group Relative Self-Distillation | 2026-03 | [Code](https://github.com/ui-voyager/UI-Voyager) | arXiv |
 | [SOD: Step-wise On-policy Distillation for Small Language Model Agents](https://arxiv.org/abs/2605.07725) | SOD | 2026-05 | [Code](https://github.com/YoungZ365/SOD) | arXiv |
 | [StepOPSD: Step-Aware Online Preference Distillation for Agent Reinforcement Learning](https://arxiv.org/abs/2605.27140) | StepOPSD | 2026-05 | - | arXiv |
@@ -120,7 +120,6 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [TurnOPD: Making On-Policy Distillation Turn-Aware for Efficient Long-Horizon Agent Training](https://arxiv.org/abs/2607.05804) | TurnOPD | 2026-07 | - | arXiv |
 | [CAST: Game Solvers as Turn-Level Teachers for LLM Agents](https://arxiv.org/abs/2607.25308) | CAST | 2026-07 | [Code](https://github.com/Wloner0809/CAST) | arXiv |
 | [DASH-OPD: Discrepancy-Aware Switching with Hysteresis for On-Policy Distillation](https://arxiv.org/abs/2607.29078) | DASH-OPD | 2026-07 | - | arXiv |
-| [TCPO: Turn-Level Credit Policy Optimization](https://arxiv.org/abs/2608.01667) | TCPO | 2026-08 | - | arXiv |
 | [TurnSight: Turn-Level Hindsight Self-Distillation for Tool-Integrated Reasoning](https://arxiv.org/abs/2608.04007) | TurnSight | 2026-08 | [Code](https://github.com/quchangle1/TurnSight) | arXiv |
 
 ### 3️⃣ Privileged- and Hindsight-Conditioned OPSD
@@ -133,7 +132,6 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [Self-Distilled Agentic Reinforcement Learning](https://arxiv.org/abs/2605.15155) | SDAR | 2026-05 | - | arXiv |
 | [HINT-SD: Targeted Hindsight Self-Distillation for Long-Horizon Agents](https://arxiv.org/abs/2605.17873) | HINT-SD | 2026-05 | - | arXiv |
 | [SD-Search: On-Policy Hindsight Self-Distillation for Search-Augmented Reasoning](https://arxiv.org/abs/2605.18299) | SD-Search | 2026-05 | - | arXiv |
-| [What and When to Distill: Selective Hindsight Distillation for Multi-Turn Agents](https://arxiv.org/abs/2605.19447) | SERL | 2026-05 | - | arXiv |
 | [PBSD: Privileged Bayesian Self-Distillation for Long-Horizon Credit Assignment](https://arxiv.org/abs/2606.09348) | PBSD | 2026-06 | - | arXiv |
 | [HERO: Hindsight-Enhanced Reflection from Environment Observations for Agentic Self-Distillation](https://arxiv.org/abs/2606.11559) | HERO | 2026-06 | - | arXiv |
 | [UCOB: Learning to Utilize and Evolve Agentic Skills via Credit-Aware On-Policy Bidirectional Self-Distillation](https://arxiv.org/abs/2606.29502) | UCOB | 2026-06 | [Code](https://github.com/TU2021/UCOB) | arXiv |
@@ -141,6 +139,7 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [From Scoring to Acting: Outcome-Verified Comparative Self-Distillation for LLM Agents](https://arxiv.org/abs/2607.27937) | OVCSD | 2026-07 | - | arXiv |
 | [Contrastive Reinforced Policy Optimization via Privileged Self-Distillation](https://arxiv.org/abs/2607.28026) | CRPO | 2026-07 | - | arXiv |
 | [Group-Reflective Self-Distillation for Agentic Reinforcement Learning](https://arxiv.org/abs/2607.28076) | GRSD | 2026-07 | - | arXiv |
+| [TransMem: Transforming Hidden States into Memory for Large Language Models](https://arxiv.org/abs/2607.29032) | TransMem | 2026-07 | [Code](https://github.com/Haodong-Lei-Ray/TransMem) | arXiv |
 | [EviSD: Evidence-Conditioned Self-Distillation for Search-Augmented Agents](https://arxiv.org/abs/2608.01359) | EviSD | 2026-08 | [Code](https://github.com/JiananXie/EviSD) | arXiv |
 | [PCSD: Persistent Consistency for Self-Distillation in Agentic Reinforcement Learning](https://arxiv.org/abs/2608.01837) | PCSD | 2026-08 | - | arXiv |
 | [Agentic Reinforcement Learning with Self-Distilled Reward Shaping](https://arxiv.org/abs/2608.03223) | ADRS | 2026-08 | [Code](https://github.com/gitrxh/ADRS-arxiv) | arXiv |
@@ -163,61 +162,41 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [MAD-OPD: Breaking the Ceiling in On-Policy Distillation via Multi-Agent Debate](https://arxiv.org/abs/2605.01347) | MAD-OPD | 2026-05 | [Code](https://github.com/chiefovoavicii/MAD-OPD) | arXiv |
 | [Scaling the Horizon, Not the Parameters: Reaching Trillion-Parameter Performance with a 35B Agent](https://arxiv.org/abs/2606.30616) | Agents-A1 | 2026-06 | [Code](https://github.com/InternScience/Agents-A1) | arXiv |
 | [UI-MOPD: Multi-Platform On-Policy Distillation for Continual GUI Agent Learning](https://arxiv.org/abs/2607.04425) | UI-MOPD | 2026-07 | [Code](https://elispectre.github.io/UI-MOPD/) | arXiv |
-| [When Top-K Misses the Decision: Tool-Call Drift in Multi-Teacher On-Policy Distillation](https://arxiv.org/abs/2607.07050) | - | 2026-07 | [Code](https://github.com/shen-jiabin/topk-support-opd) | arXiv |
-| [REGEN: Replay-recycling for Expert-to-Generalist distillation with Offline Reinforcement Learning](https://arxiv.org/abs/2607.19450) | REGEN | 2026-07 | [Code](https://github.com/yunjie-sysu/REGEN) | arXiv |
 | [KAT-Coder-V2.5 Technical Report](https://arxiv.org/abs/2607.05471) | KAT-Coder-V2.5 | 2026-07 | - | arXiv |
+| [When Top-K Misses the Decision: Tool-Call Drift in Multi-Teacher On-Policy Distillation](https://arxiv.org/abs/2607.07050) | - | 2026-07 | [Code](https://github.com/shen-jiabin/topk-support-opd) | arXiv |
 | [Mach-Mind-4-Flash Technical Report](https://arxiv.org/abs/2607.09375) | MOPD / HMPO | 2026-07 | - | arXiv |
 | [Cross-Domain Hybrid OPD for Generalizable Search Agents](https://arxiv.org/abs/2608.02101) | Yuanbao Search Agent | 2026-08 | - | arXiv |
 
-### 6️⃣ Skill, Memory and Self-Evolving Agents
+### 6️⃣ Skill and Experience Distillation for Self-Evolving Agents
 
 | 📖 Title | 🛠 Model / Method | 📅 Date | 💻 Code | 🏛 Venue |
 | --- | --- | --- | --- | --- |
-| [PRIME: Training Free Proactive Reasoning via Iterative Memory Evolution for User-Centric Agent](https://arxiv.org/abs/2604.07645) | PRIME | 2026-04 | - | arXiv |
-| [MMG2Skill: Can Agents Distill In-the-Wild Guides into Self-Evolving Skills?](https://arxiv.org/abs/2606.01993) | MMG2Skill | 2026-06 | [Code](https://github.com/NJU-LINK/MMG2Skill) | arXiv |
-| [Better with Experience: Self-Evolving LLM Agents for Evidence-Grounded Health Community Notes](https://arxiv.org/abs/2606.02215) | EvoNote | 2026-06 | - | arXiv |
 | [COMAP: Co-Evolving World Models and Agent Policies for LLM Agents](https://arxiv.org/abs/2606.02372) | COMAP | 2026-06 | [Code](https://github.com/loyiv/CoMAP) | arXiv |
 | [OPD-Evolver: Cultivating Holistic Agent Evolver via On-Policy Distillation](https://arxiv.org/abs/2606.17628) | OPD-Evolver | 2026-06 | - | arXiv |
 | [OPID: On-Policy Skill Distillation for Agentic Reinforcement Learning](https://arxiv.org/abs/2606.26790) | OPID | 2026-06 | [Code](https://github.com/jinyangwu/OPID) | arXiv |
-| [DuoMem: Towards Capable On-Device Memory Agents via Dual-Space Distillation](https://arxiv.org/abs/2606.29961) | DuoMem | 2026-06 | - | arXiv |
 | [DeepSearch-World: Self-Distillation for Deep Search Agents in a Verifiable Environment](https://arxiv.org/abs/2607.07820) | DeepSearch-World | 2026-07 | - | arXiv |
 | [SEED: Self-Evolving On-Policy Distillation for Agentic Reinforcement Learning](https://arxiv.org/abs/2607.14777) | SEED | 2026-07 | [Code](https://github.com/jinyangwu/SEED) | arXiv |
-| [TransMem: Transforming Hidden States into Memory for Large Language Models](https://arxiv.org/abs/2607.29032) | TransMem | 2026-07 | [Code](https://github.com/Haodong-Lei-Ray/TransMem) | arXiv |
 
-### 7️⃣ Domain Agents and Small-Model Agent Distillation
+### 7️⃣ Domain Agents: Search, GUI, Coding, Multimodal
 
 | 📖 Title | 🛠 Model / Method | 📅 Date | 💻 Code | 🏛 Venue |
 | --- | --- | --- | --- | --- |
-| [Structured Agent Distillation for Large Language Model](https://arxiv.org/abs/2505.13820) | Structured Agent Distillation | 2025-05 | - | AAMAS |
-| [Distilling LLM Agent into Small Models with Retrieval and Code Tools](https://arxiv.org/abs/2505.17612) | Agent Distillation | 2025-05 | [Code](https://github.com/Nardien/agent-distillation) | NeurIPS(Spotlight) |
-| [AgentDistill: Training-Free Agent Distillation with Generalizable MCP Boxes](https://arxiv.org/abs/2506.14728) | AgentDistill | 2025-06 | - | arXiv |
-| [Chain-of-Agents: End-to-End Agent Foundation Models via Multi-Agent Distillation and Agentic RL](https://arxiv.org/abs/2508.13167) | Chain-of-Agents / AFM | 2025-08 | - | arXiv |
 | [Can Compact Language Models Search Like Agents? Distillation-Guided Policy Optimization for Preserving Agentic RAG Capabilities](https://arxiv.org/abs/2508.20324) | DGPO | 2025-08 | - | ACL(Main) |
 | [Student-Centered Distillation Narrows the Agentic Gap Between Small and Large LLMs](https://arxiv.org/abs/2509.14257) | SCoRe | 2025-09 | - | ICML |
-| [O-Researcher: An Open Ended Deep Research Model via Multi-Agent Distillation and Agentic RL](https://arxiv.org/abs/2601.03743) | O-Researcher | 2026-01 | - | arXiv |
-| [Search, Do not Guess: Teaching Small Language Models to Be Effective Search Agents](https://arxiv.org/abs/2604.04651) | - | 2026-04 | - | arXiv |
 | [Self-Distilled Reinforcement Learning for Co-Evolving Agentic Recommender Systems](https://arxiv.org/abs/2604.10029) | CoARS | 2026-04 | - | arXiv |
-| [GUI Agents with Reinforcement Learning: Toward Digital Inhabitants](https://arxiv.org/abs/2604.27955) | Survey | 2026-04 | [Code](https://github.com/Steve2457/Awesome-RL-GUI-Agents) | arXiv |
 | [HyperEyes: Dual-Grained Efficiency-Aware Reinforcement Learning for Parallel Multimodal Search Agents](https://arxiv.org/abs/2605.07177) | HyperEyes | 2026-05 | [Code](https://github.com/DeepExperience/HyperEyes) | arXiv |
-| [From Patches to Trajectories: Privileged Process Supervision for Software-Engineering Agents](https://arxiv.org/abs/2605.21996) | P2T | 2026-05 | - | arXiv |
-| [Unlocking Proactivity in Task-Oriented Dialogue](https://arxiv.org/abs/2605.22240) | - | 2026-05 | - | arXiv |
+| [Unlocking Proactivity in Task-Oriented Dialogue](https://arxiv.org/abs/2605.22240) | Asymmetric-View Policy Optimization | 2026-05 | - | arXiv |
 | [Search-E1: Self-Distillation Drives Self-Evolution in Search-Augmented Reasoning](https://arxiv.org/abs/2605.22511) | Search-E1 | 2026-05 | - | arXiv |
-| [Retrieval, Reward, and Training Protocols: What Matters in Training Search Agents?](https://arxiv.org/abs/2605.27881) | Empirical Study | 2026-05 | [Code](https://github.com/YiboZhao624/SearchAgentReview) | arXiv |
-| [Native Active Perception as Reasoning for Omni-Modal Understanding](https://arxiv.org/abs/2606.19341) | OmniAgent / TAURA | 2026-06 | [Code](https://github.com/harryhsing/omniagent) | ICML |
-| [Teach it to stop, not just to click](https://arxiv.org/abs/2607.17136) | Reliability Study | 2026-07 | - | arXiv |
+| [Teach it to stop, not just to click](https://arxiv.org/abs/2607.17136) | SA-OPSD | 2026-07 | - | arXiv |
 | [Why Does Feedback-Augmented Self-Distillation Fail to Improve Retrieval-Interleaved Search Agents?](https://arxiv.org/abs/2607.17558) | FA-SD | 2026-07 | - | arXiv |
-| [MagicSelector: Joint Optimization for Agent Tool Selection via Counterfactual Decomposition and Progressive Reranking](https://arxiv.org/abs/2607.17751) | MagicSelector | 2026-07 | - | arXiv |
 | [MAGA: Multi-Platform Self-Fusion of GUI Agents via Structured Action Distillation](https://arxiv.org/abs/2607.29320) | MAGA | 2026-07 | - | arXiv |
-| [Distilling Knowledge from Large Language Models into Lightweight Reinforcement Learning Agents for Autonomous Cyber Operations](https://arxiv.org/abs/2607.28826) | - | 2026-07 | - | arXiv |
 
 ### 8️⃣ Benchmarks, Environments and Frameworks
 
 | 📖 Title | 🛠 Benchmark / Framework | 📅 Date | 💻 Code | 🏛 Venue |
 | --- | --- | --- | --- | --- |
-| [Subliminal Transfer of Unsafe Behaviors in AI Agent Distillation](https://arxiv.org/abs/2604.15559) | Safety Study | 2026-04 | - | arXiv |
-| [Healthcare AI GYM for Medical Agents](https://arxiv.org/abs/2605.02943) | Healthcare AI GYM | 2026-05 | - | arXiv |
+| [Healthcare AI GYM for Medical Agents](https://arxiv.org/abs/2605.02943) | TT-OPD | 2026-05 | - | arXiv |
 | [Orchard: An Open-Source Agentic Modeling Framework](https://arxiv.org/abs/2605.15040) | Orchard | 2026-05 | - | arXiv |
-| [MMG2Skill: Can Agents Distill In-the-Wild Guides into Self-Evolving Skills?](https://arxiv.org/abs/2606.01993) | MMG2Skill | 2026-06 | [Code](https://github.com/NJU-LINK/MMG2Skill) | arXiv |
 | [QVal: Cheaply Evaluating Dense Supervision Signals for Long-Horizon LLM Agents](https://arxiv.org/abs/2606.32034) | QVal | 2026-06 | - | arXiv |
 | [DeepSearch-World: Self-Distillation for Deep Search Agents in a Verifiable Environment](https://arxiv.org/abs/2607.07820) | DeepSearch-World | 2026-07 | - | arXiv |
 | [EasyOPD: An Easy-to-use On-Policy Distillation Framework for Large Language Models](https://arxiv.org/abs/2607.11012) | EasyOPD | 2026-07 | - | arXiv |
@@ -230,7 +209,7 @@ Single-turn work, included **only** so the objectives used throughout this list 
 - Spotted wrong metadata (venue, date, method name, broken link)? Corrections are very welcome.
 - Have a suggestion for the taxonomy — a category to split, merge, or add? Please open an issue to discuss.
 - Papers may appear under more than one category when they contribute along multiple axes.
-- **Scope check before submitting:** the work should involve an agent taking more than one step in an environment. Single-turn reasoning distillation, non-LLM robotic policy distillation, and general-purpose LLM technical reports that merely use multi-teacher OPD are out of scope.
+- **Before submitting, check the two conditions in [Scope](#awesome-agentic-opd).** The most common false positive is a paper that uses the word "distil" for summarizing trajectories into a text memory or skill library: that is not a distillation objective and does not belong here. The second most common is supervised fine-tuning on teacher trajectories, which is off-policy.
 - Metadata provenance: every title and date is taken from the arXiv API; `🏛 Venue` is only set to a conference when the paper's own arXiv `comment`/`journal_ref` states the acceptance, otherwise it stays `arXiv`; every `💻 Code` link is one announced in the paper itself and returned HTTP 200 at indexing time.
 
 ---
