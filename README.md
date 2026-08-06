@@ -11,6 +11,8 @@ A curated list of papers, benchmarks, methods, and resources for **On-Policy Dis
 1. **Agentic** — the policy takes **more than one turn** in an environment (tool calls, retrieval, GUI actions, code execution), so per-step errors compound and a trajectory-level reward does not say *which* action was wrong.
 2. **On-policy distillation** — a teacher-derived signal (an external teacher, or the same policy conditioned on privileged context) supplies a **distillation objective on the agent's own rollouts** and updates the weights.
 
+Section 8 is the one exception to condition 2: it collects environments, testbeds and training frameworks that *serve* agentic OPD research without themselves training a policy.
+
 Explicitly **out of scope**: single-turn OPD; off-policy distillation and SFT on teacher trajectories; "distillation" that only writes text into a memory or skill library without a distillation loss; training-free and gradient-free agent transfer; non-LLM robotic policy distillation; general-purpose LLM technical reports that are not about multi-turn agents. Single-turn foundations appear only in a short [Preliminaries](#-preliminaries-single-turn-opd--opsd) section that fixes the definitions.
 
 ---
@@ -20,7 +22,7 @@ Explicitly **out of scope**: single-turn OPD; off-policy distillation and SFT on
 - 🚀 2026-08-06: Repository initialized.
 - 📝 2026-08-06: Taxonomy for agentic OPD / OPSD released (8 categories).
 - ✅ 2026-08-06: All titles, dates, venues and code links verified programmatically against the arXiv API.
-- 🧹 2026-08-06: Inclusion criteria tightened and written down. Every entry re-checked against its abstract for an actual on-policy distillation objective; 24 entries removed that used "distil" only figuratively, distilled off-policy, or wrote to a text memory instead of the weights.
+- 🧹 2026-08-06: Inclusion criteria tightened and written down. Every entry re-checked against its abstract for an actual on-policy distillation objective; 26 entries removed that used "distil" only figuratively, distilled off-policy, distilled into something other than the policy, or wrote to a text memory instead of the weights.
 
 ---
 
@@ -171,7 +173,6 @@ Single-turn work, included **only** so the objectives used throughout this list 
 
 | 📖 Title | 🛠 Model / Method | 📅 Date | 💻 Code | 🏛 Venue |
 | --- | --- | --- | --- | --- |
-| [COMAP: Co-Evolving World Models and Agent Policies for LLM Agents](https://arxiv.org/abs/2606.02372) | COMAP | 2026-06 | [Code](https://github.com/loyiv/CoMAP) | arXiv |
 | [OPD-Evolver: Cultivating Holistic Agent Evolver via On-Policy Distillation](https://arxiv.org/abs/2606.17628) | OPD-Evolver | 2026-06 | - | arXiv |
 | [OPID: On-Policy Skill Distillation for Agentic Reinforcement Learning](https://arxiv.org/abs/2606.26790) | OPID | 2026-06 | [Code](https://github.com/jinyangwu/OPID) | arXiv |
 | [DeepSearch-World: Self-Distillation for Deep Search Agents in a Verifiable Environment](https://arxiv.org/abs/2607.07820) | DeepSearch-World | 2026-07 | - | arXiv |
@@ -182,7 +183,6 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | 📖 Title | 🛠 Model / Method | 📅 Date | 💻 Code | 🏛 Venue |
 | --- | --- | --- | --- | --- |
 | [Can Compact Language Models Search Like Agents? Distillation-Guided Policy Optimization for Preserving Agentic RAG Capabilities](https://arxiv.org/abs/2508.20324) | DGPO | 2025-08 | - | ACL(Main) |
-| [Student-Centered Distillation Narrows the Agentic Gap Between Small and Large LLMs](https://arxiv.org/abs/2509.14257) | SCoRe | 2025-09 | - | ICML |
 | [Self-Distilled Reinforcement Learning for Co-Evolving Agentic Recommender Systems](https://arxiv.org/abs/2604.10029) | CoARS | 2026-04 | - | arXiv |
 | [HyperEyes: Dual-Grained Efficiency-Aware Reinforcement Learning for Parallel Multimodal Search Agents](https://arxiv.org/abs/2605.07177) | HyperEyes | 2026-05 | [Code](https://github.com/DeepExperience/HyperEyes) | arXiv |
 | [Unlocking Proactivity in Task-Oriented Dialogue](https://arxiv.org/abs/2605.22240) | Asymmetric-View Policy Optimization | 2026-05 | - | arXiv |
