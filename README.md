@@ -239,17 +239,5 @@ Single-turn work, included **only** so the objectives used throughout this list 
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Zenghuang-Fu/Awesome-Agentic-OPD&type=Date)](https://star-history.com/#Zenghuang-Fu/Awesome-Agentic-OPD&Date)
 
----
 
-## 📌 Citation
-
-If you find this repository useful, please consider citing it:
-
-```bibtex
-@misc{awesome-agentic-opd,
-  title        = {Awesome-Agentic-OPD: A Curated List of On-Policy Distillation and On-Policy Self-Distillation for Agentic RL},
-  author       = {Zenghuang Fu},
-  year         = {2026},
-  howpublished = {\url{https://github.com/Zenghuang-Fu/Awesome-Agentic-OPD}}
-}
 ```
