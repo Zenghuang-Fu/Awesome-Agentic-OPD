@@ -238,6 +238,3 @@ Single-turn work, included **only** so the objectives used throughout this list 
 ## ⭐ Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Zenghuang-Fu/Awesome-Agentic-OPD&type=Date)](https://star-history.com/#Zenghuang-Fu/Awesome-Agentic-OPD&Date)
-
-
-```
