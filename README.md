@@ -23,6 +23,7 @@ Explicitly **out of scope**: single-turn OPD; off-policy distillation and SFT on
 - 📝 2026-08-06: Taxonomy for agentic OPD / OPSD released (8 categories).
 - ✅ 2026-08-06: All titles, dates, venues and code links verified programmatically against the arXiv API.
 - 🧹 2026-08-06: Inclusion criteria tightened and written down. Every entry re-checked against its abstract for an actual on-policy distillation objective; 26 entries removed that used "distil" only figuratively, distilled off-policy, distilled into something other than the policy, or wrote to a text memory instead of the weights.
+- ➕ 2026-08-07: Three new entries — AgentOPSD (recursive turn-level credit), MemOPD (teacher state alignment under memory compression) and SMRC-SD (state-matched privileged routing).
 
 ---
 
@@ -121,6 +122,8 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [CAST: Game Solvers as Turn-Level Teachers for LLM Agents](https://arxiv.org/abs/2607.25308) | CAST | 2026-07 | [Code](https://github.com/Wloner0809/CAST) | arXiv |
 | [DASH-OPD: Discrepancy-Aware Switching with Hysteresis for On-Policy Distillation](https://arxiv.org/abs/2607.29078) | DASH-OPD | 2026-07 | - | arXiv |
 | [TurnSight: Turn-Level Hindsight Self-Distillation for Tool-Integrated Reasoning](https://arxiv.org/abs/2608.04007) | TurnSight | 2026-08 | [Code](https://github.com/quchangle1/TurnSight) | arXiv |
+| [AgentOPSD: Recursive Self-Distillation for Agentic Reinforcement Learning](https://arxiv.org/abs/2608.05987) | AgentOPSD | 2026-08 | [Code](https://github.com/ZethWang/AgentOPSD) | arXiv |
+| [MemOPD: On-Policy Distillation through Memory State Alignment for Long-Horizon Agents](https://arxiv.org/abs/2608.07068) | MemOPD | 2026-08 | - | arXiv |
 
 ### 3️⃣ Privileged- and Hindsight-Conditioned OPSD
 
@@ -146,6 +149,7 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [Agentic Reinforcement Learning with Self-Distilled Reward Shaping](https://arxiv.org/abs/2608.03223) | ADRS | 2026-08 | [Code](https://github.com/gitrxh/ADRS-arxiv) | arXiv |
 | [Agentic Reinforcement Learning with Observation-Calibrated Self-Distillation](https://arxiv.org/abs/2608.04788) | OCSD | 2026-08 | [Code](https://github.com/yiy1x/OCSD) | arXiv |
 | [Privileged, but Biased: How PI-Conditioned Teachers Break Self-Distillation](https://arxiv.org/abs/2608.04794) | PI Bias Score | 2026-08 | - | arXiv |
+| [When Privileged Guidance Misaligns: State-Matched Routing and Contextualized Self-Distillation for Multi-Turn Agents](https://arxiv.org/abs/2608.05219) | SMRC-SD | 2026-08 | [Code](https://github.com/liujunzhuo/SMRC-SD) | arXiv |
 
 ### 4️⃣ Token- and Advantage-Level Credit in Agentic OPD
 
