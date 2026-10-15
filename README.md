@@ -204,6 +204,7 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [QVal: Cheaply Evaluating Dense Supervision Signals for Long-Horizon LLM Agents](https://arxiv.org/abs/2606.32034) | QVal | 2026-06 | - | arXiv |
 | [DeepSearch-World: Self-Distillation for Deep Search Agents in a Verifiable Environment](https://arxiv.org/abs/2607.07820) | DeepSearch-World | 2026-07 | - | arXiv |
 | [EasyOPD: An Easy-to-use On-Policy Distillation Framework for Large Language Models](https://arxiv.org/abs/2607.11012) | EasyOPD | 2026-07 | - | arXiv |
+| [More Methods, Better Agents? A Reality Check on Self-Distillation in Agentic Reinforcement Learning](https://arxiv.org/abs/2610.19789) | Self-Distillation-AgentRL | 2026-10 | [Code](https://github.com/aim-uofa/Self-Distillation-AgentRL) | arXiv |
 
 ---
 
