@@ -6,6 +6,8 @@
 
 A curated list of papers, benchmarks, methods, and resources for **On-Policy Distillation (OPD) and On-Policy Self-Distillation (OPSD) in Agentic RL**.
 
+> **Our work.** We propose [UniOPSD: Unifying Outcome and Hindsight Feedback for Agentic Reinforcement Learning](https://arxiv.org/abs/2609.34810), a unified framework that combines outcome feedback with successful-peer hindsight for correlation-guided credit assignment in agentic RL. [Code](https://github.com/Zenghuang-Fu/Uniopsd).
+
 **Scope.** A paper belongs here when it satisfies *both* conditions:
 
 1. **Agentic** — the policy takes **more than one turn** in an environment (tool calls, retrieval, GUI actions, code execution), so per-step errors compound and a trajectory-level reward does not say *which* action was wrong.
@@ -150,6 +152,7 @@ Single-turn work, included **only** so the objectives used throughout this list 
 | [Agentic Reinforcement Learning with Observation-Calibrated Self-Distillation](https://arxiv.org/abs/2608.04788) | OCSD | 2026-08 | [Code](https://github.com/yiy1x/OCSD) | arXiv |
 | [Privileged, but Biased: How PI-Conditioned Teachers Break Self-Distillation](https://arxiv.org/abs/2608.04794) | PI Bias Score | 2026-08 | - | arXiv |
 | [When Privileged Guidance Misaligns: State-Matched Routing and Contextualized Self-Distillation for Multi-Turn Agents](https://arxiv.org/abs/2608.05219) | SMRC-SD | 2026-08 | [Code](https://github.com/liujunzhuo/SMRC-SD) | arXiv |
+| [UniOPSD: Unifying Outcome and Hindsight Feedback for Agentic Reinforcement Learning](https://arxiv.org/abs/2609.34810) | UniOPSD | 2026-09 | [Code](https://github.com/Zenghuang-Fu/Uniopsd) | arXiv |
 
 ### 4️⃣ Token- and Advantage-Level Credit in Agentic OPD
 
